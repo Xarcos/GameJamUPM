@@ -20,7 +20,7 @@ MonoBehaviour:
   m_ShowMode: 4
   m_Title: 
   m_RootView: {fileID: 4}
-  m_MinSize: {x: 950, y: 521}
+  m_MinSize: {x: 950, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
 --- !u!114 &2
 MonoBehaviour:
@@ -67,10 +67,10 @@ MonoBehaviour:
     y: 0
     width: 234
     height: 646
-  m_MinSize: {x: 234, y: 471}
-  m_MaxSize: {x: 10004, y: 14021}
+  m_MinSize: {x: 234, y: 492}
+  m_MaxSize: {x: 10004, y: 14042}
   vertical: 1
-  controlID: 619
+  controlID: 30
 --- !u!114 &4
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -114,7 +114,7 @@ MonoBehaviour:
     height: 30
   m_MinSize: {x: 0, y: 0}
   m_MaxSize: {x: 0, y: 0}
-  m_LastLoadedLayoutName: 2 by 3
+  m_LastLoadedLayoutName: 
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -136,10 +136,10 @@ MonoBehaviour:
     y: 30
     width: 1366
     height: 646
-  m_MinSize: {x: 713, y: 471}
-  m_MaxSize: {x: 18008, y: 14021}
+  m_MinSize: {x: 713, y: 492}
+  m_MaxSize: {x: 18008, y: 14042}
   vertical: 0
-  controlID: 391
+  controlID: 9
 --- !u!114 &7
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -178,8 +178,8 @@ MonoBehaviour:
     y: 0
     width: 234
     height: 375
-  m_MinSize: {x: 200, y: 200}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 204, y: 221}
+  m_MaxSize: {x: 4004, y: 4021}
   m_ActualView: {fileID: 11}
   m_Panes:
   - {fileID: 11}
@@ -263,10 +263,10 @@ MonoBehaviour:
     width: 230
     height: 354
   m_TreeViewState:
-    scrollPos: {x: 0, y: 95}
-    m_SelectedIDs: d8bcffff
-    m_LastClickedID: -17192
-    m_ExpandedIDs: f898ffffd6b3ffffe8c3ffffb2ccffffc8ccffffdeccfffff4ccffff1eeaffffceedffff42eeffff76eeffff16effffffaf8ffff04f9ffffb4ffffff00000000
+    scrollPos: {x: 0, y: 0}
+    m_SelectedIDs: b4daffff
+    m_LastClickedID: 0
+    m_ExpandedIDs: e4fbffff00000000ba250000c4250000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -359,19 +359,19 @@ MonoBehaviour:
     m_ShowAllHits: 0
     m_SearchArea: 0
     m_Folders:
-    - Assets/Oscar
+    - Assets/Resources
   m_ViewMode: 1
   m_StartGridSize: 16
   m_LastFolders:
-  - Assets/Oscar
+  - Assets/Resources
   m_LastFoldersGridSize: 16
   m_LastProjectPath: C:\Users\Oscar\Documents\GameJamUPM\GameJamUPM
   m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 3e250000
-    m_LastClickedID: 9534
-    m_ExpandedIDs: 000000009c24000000ca9a3bffffff7f
+    m_SelectedIDs: 28260000
+    m_LastClickedID: 9768
+    m_ExpandedIDs: 000000009e24000000ca9a3bffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -399,7 +399,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 000000009c24000000ca9a3bffffff7f
+    m_ExpandedIDs: 000000009e240000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 

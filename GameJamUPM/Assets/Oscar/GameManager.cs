@@ -64,7 +64,8 @@ public class GameManager : MonoBehaviour {
     int actualLvlDef = 0;
     [SerializeField] LvlDef[] m_lvlDefs;
 
-    [SerializeField] UnityEngine.UI.Text m_gestureText;
+    [SerializeField] UnityEngine.UI.Image m_faceGesture;
+    [SerializeField] UnityEngine.UI.Image m_handsGesture;
     [SerializeField] UnityEngine.UI.Text m_lifeText;
     [SerializeField] UnityEngine.UI.Text m_scoreText;
     [SerializeField] UnityEngine.UI.Text m_lvlText;
@@ -95,7 +96,9 @@ public class GameManager : MonoBehaviour {
         m_actualGesture = (Actions)values.GetValue(Random.Range(0, values.Length));
 
         // @TODO Hacer el gesto
-        m_gestureText.text = m_actualGesture.ToString();
+        var gestureSprites = MgrOwnerGestures.getGesture(m_actualGesture);
+        m_handsGesture.sprite = gestureSprites.hands;
+        m_faceGesture.sprite = gestureSprites.face;
 
         // @TODO Iniciar temporizador
         m_temporizer = m_lvlDefs[actualLvlDef].tempoTime;
