@@ -11,7 +11,7 @@ public class OwnerGestures
 }
 
 [CreateAssetMenu]
-public class MgrOwnerGestures : ScriptableObject {
+public class MgrOwnerGestures : ScriptableObject { 
 
 	public OwnerGestures _BarkGestures;
 	public OwnerGestures _MakeDeathGestures;

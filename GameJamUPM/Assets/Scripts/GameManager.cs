@@ -1,5 +1,5 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
+using System.Collections.Generic; 
 using UnityEngine;
 
 public enum Actions {Bark, MakeDeath, Paw, Sit }
@@ -152,6 +152,7 @@ public class GameManager : MonoBehaviour {
     {
         // @TODO
         enabled = false;
+
         m_lifeText.text = "YOU DIE!";
     }
 }
