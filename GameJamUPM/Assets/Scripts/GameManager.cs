@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic; 
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public enum Actions {Bark, MakeDeath, Paw, Sit }
 
@@ -14,11 +15,19 @@ public class LvlDef
     public double successScore;
 }
 
+[System.Serializable]
+public class boost
+{
+    public int followedSuccesses;
+    public float multiplier;
+}
+
 public class GameManager : MonoBehaviour {
 
     double m_score = 0;
     float m_life;
     float m_temporizer = 0;
+    int followedSuccesses = 0;
 
     float m_answerTime;
 
@@ -31,13 +40,13 @@ public class GameManager : MonoBehaviour {
         set
         {
             m_score = value;
-            m_scoreText.text = m_score.ToString();
+            m_scoreText.text = "Score:\n" + m_score.ToString();
 
             // Subimos de nivel en función de la puntuación
             if ((actualLvlDef < (m_lvlDefs.Length - 1)) && (m_lvlDefs[actualLvlDef + 1].puntuationRequired <= m_score))
             {
                 ++actualLvlDef;
-                m_lvlText.text = actualLvlDef.ToString();
+                m_lvlText.text = actualLvlDef==0? "" : "Level: " + actualLvlDef.ToString();
             }
         }
     }
@@ -59,30 +68,54 @@ public class GameManager : MonoBehaviour {
                 EndGame();
         }
     }
+    int FollowedSuccesses
+    {
+        get
+        {
+            return followedSuccesses;
+        }
+        set
+        {
+            followedSuccesses = value;
+            if (followedSuccesses == 0)
+            {
+                actualBoost = 0;
+                m_boostText.text = "x" + actualBoost.ToString();
+            }
+            else if ((actualLvlDef == m_lvlDefs.Length -1) && (actualBoost < (m_boost.Length - 1)) && (m_boost[actualBoost + 1].followedSuccesses <= followedSuccesses))
+            {
+                ++actualBoost;
+                m_boostText.text = "x" + actualBoost.ToString();
+            }
+        }
+    }
 
     Actions m_actualGesture;
-    int actualLvlDef = 0;
-    [SerializeField] LvlDef[] m_lvlDefs;
 
-    [SerializeField] UnityEngine.UI.Image m_faceGesture;
-    [SerializeField] UnityEngine.UI.Image m_handsGesture;
+    int actualLvlDef = 0; [SerializeField] LvlDef[] m_lvlDefs;
+    int actualBoost = 0; [SerializeField] boost[] m_boost;
+
     [SerializeField] UnityEngine.UI.Text m_lifeText;
     [SerializeField] UnityEngine.UI.Text m_scoreText;
     [SerializeField] UnityEngine.UI.Text m_lvlText;
-    [SerializeField] UnityEngine.UI.Text m_tempText;
+    [SerializeField] UnityEngine.UI.Text m_boostText;
+
+    Owner m_owner;
 
     public float MAX_LIFE;
 
 	// Use this for initialization
 	void Start () {
         m_life = MAX_LIFE;
+
+        m_owner = GameObject.FindGameObjectWithTag("Owner").GetComponent<Owner>();
+
         MakeGesture();
 	}
 	
 	// Update is called once per frame
 	void Update () {
         // Temporizador
-        m_tempText.text = m_temporizer.ToString();
         if ((m_temporizer -= Time.deltaTime) < 0)
         {
             OnWrongAction();
@@ -91,14 +124,12 @@ public class GameManager : MonoBehaviour {
 
     public void MakeGesture()
     {
-        // @TODO Escoger un gesto
+        // Escoger un gesto
         var values = System.Enum.GetValues(typeof(Actions));
         m_actualGesture = (Actions)values.GetValue(Random.Range(0, values.Length));
 
-        // @TODO Hacer el gesto
-        var gestureSprites = MgrOwnerGestures.getGesture(m_actualGesture);
-        m_handsGesture.sprite = gestureSprites.hands;
-        m_faceGesture.sprite = gestureSprites.face;
+        // Hacer el gesto
+        m_owner.MakeGesture(m_actualGesture);
 
         // @TODO Iniciar temporizador
         m_temporizer = m_lvlDefs[actualLvlDef].tempoTime;
@@ -114,7 +145,6 @@ public class GameManager : MonoBehaviour {
 
     public void MakeAction(Actions action)
     {
-        // @TODO
         if (m_actualGesture == action)
             OnCorrectAction();
         else
@@ -125,6 +155,9 @@ public class GameManager : MonoBehaviour {
     {
         // @TODO
         // Reacción del dueño
+
+        // Resetear el número de aciertos seguidos
+        FollowedSuccesses = 0;
 
         // Perder vida
         Life -= m_lvlDefs[actualLvlDef].life_on_fail;
@@ -142,7 +175,10 @@ public class GameManager : MonoBehaviour {
         Life += m_lvlDefs[actualLvlDef].life_on_success;
 
         // Ganar puntuación
-        Score += m_lvlDefs[actualLvlDef].successScore;
+        Score += m_lvlDefs[actualLvlDef].successScore * m_boost[actualBoost].multiplier;
+
+        // Aciertos seguidos
+        ++FollowedSuccesses;
 
         // Hacer el nuevo gesto
         MakeGesture();
@@ -151,8 +187,9 @@ public class GameManager : MonoBehaviour {
     void EndGame()
     {
         // @TODO
-        enabled = false;
 
-        m_lifeText.text = "YOU DIE!";
+        ScoreManager.SCORE = Score;
+
+        SceneManager.LoadScene("endgame");
     }
 }
