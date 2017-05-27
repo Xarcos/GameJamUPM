@@ -78,7 +78,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\ActionsMono.cs" />
+    <Compile Include="Assets\Scripts\Actions\Action_Bark.cs" />
+    <Compile Include="Assets\Scripts\Actions\Action_MakeDeath.cs" />
+    <Compile Include="Assets\Scripts\Actions\Action_Paw.cs" />
+    <Compile Include="Assets\Scripts\Actions\Action_Sit.cs" />
+    <Compile Include="Assets\Scripts\Actions\ActionsMono.cs" />
     <Compile Include="Assets\Scripts\DelayedDestroy.cs" />
     <Compile Include="Assets\Scripts\DogAvatar.cs" />
     <Compile Include="Assets\Scripts\EndGameController.cs" />
