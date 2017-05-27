@@ -7,7 +7,7 @@ using System.Xml.Serialization;
 public struct score
 {
     public string name;
-    public int points;
+    public long points;
 }
 public class LeaderBoardManager : MonoBehaviour
 {
@@ -15,7 +15,7 @@ public class LeaderBoardManager : MonoBehaviour
     public int maxScores;
     public string fileName = "Scores.xml";
 
-    public static void saveNewScore(int score, string name)
+    public static void saveNewScore(long score, string name)
     {
         string fullFilePath = Path.Combine(Application.persistentDataPath, instance.fileName);
         XmlDocument xmlDoc = new XmlDocument();
@@ -38,7 +38,7 @@ public class LeaderBoardManager : MonoBehaviour
         bool minfound = false;
         foreach (XmlNode currentNode in allScoresList)
         {
-            if (!minfound && int.Parse(currentNode.Attributes["Score"].Value) < score)
+            if (!minfound && long.Parse(currentNode.Attributes["Score"].Value) < score)
             {
                 lastNameFound = currentNode.Attributes["Name"].Value;
                 lastScoreFound = currentNode.Attributes["Score"].Value;
@@ -80,7 +80,7 @@ public class LeaderBoardManager : MonoBehaviour
         foreach (XmlNode currentNode in allScoresList) {
             score currentScore = new score();
             currentScore.name= currentNode.Attributes["Name"].Value;
-            currentScore.points = int.Parse(currentNode.Attributes["Score"].Value);
+            currentScore.points = long.Parse(currentNode.Attributes["Score"].Value);
             records.Add(currentScore);
         }
         return records.ToArray();
