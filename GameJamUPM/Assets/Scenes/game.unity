@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311947, g: 0.38074005, b: 0.35872722, a: 1}
+  m_IndirectSpecularColor: {r: 0.37312, g: 0.38074034, b: 0.35872734, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -138,29 +138,29 @@ MonoBehaviour:
   m_lvlDefs:
   - puntuationRequired: 0
     tempoTime: 10
-    life_on_fail: 10
+    life_on_fail: 100
     life_on_success: 10
-    successScore: 102
+    successScore: 12
   - puntuationRequired: 100
     tempoTime: 8
     life_on_fail: 20
     life_on_success: 10
-    successScore: 150
+    successScore: 15
   - puntuationRequired: 500
     tempoTime: 6
     life_on_fail: 20
     life_on_success: 10
-    successScore: 201
+    successScore: 21
   - puntuationRequired: 700
     tempoTime: 5
     life_on_fail: 20
     life_on_success: 10
-    successScore: 350
+    successScore: 35
   - puntuationRequired: 1000
     tempoTime: 3
     life_on_fail: 20
     life_on_success: 10
-    successScore: 450
+    successScore: 45
   m_boost:
   - followedSuccesses: 0
     multiplier: 1
@@ -186,6 +186,7 @@ MonoBehaviour:
   m_floatingScore: {fileID: 114413322902671052, guid: 6f0df7625cb66744fb29b312a37a3051,
     type: 2}
   OWNER_REACTION_TIME: 2
+  GAMEOVER_WAIT_TIME: 5
   redFeedback: {fileID: 1521092425}
 --- !u!4 &37779255
 Transform:
