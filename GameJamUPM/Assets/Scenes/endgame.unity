@@ -509,6 +509,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_scoreText: {fileID: 1503025690}
   m_inputField: {fileID: 978835567}
+  dogNames:
+  - dog
 --- !u!114 &1068098098
 MonoBehaviour:
   m_ObjectHideFlags: 0
