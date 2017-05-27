@@ -9,11 +9,11 @@ public enum Actions {Bark, MakeDeath, Paw, Sit }
 [System.Serializable]
 public class LvlDef
 {
-    public double puntuationRequired;
+    public long puntuationRequired;
     public float tempoTime;
     public float life_on_fail;
     public float life_on_success;
-    public double successScore;
+    public long successScore;
 }
 
 [System.Serializable]
@@ -25,14 +25,14 @@ public class boost
 
 public class GameManager : MonoBehaviour {
 
-    double m_score = 0;
+    long m_score = 0;
     float m_life;
     float m_temporizer = 0;
     int followedSuccesses = 0;
 
     float m_answerTime;
 
-    double Score
+    long Score
     {
         get
         {
@@ -100,6 +100,9 @@ public class GameManager : MonoBehaviour {
     [SerializeField] UnityEngine.UI.Text m_scoreText;
     [SerializeField] UnityEngine.UI.Text m_lvlText;
     [SerializeField] UnityEngine.UI.Text m_boostText;
+    
+    [SerializeField] RectTransform m_floatingTransformOrigin;
+    [SerializeField] DelayedDestroy m_floatingScore;
 
     Owner m_owner;
 
@@ -168,7 +171,9 @@ public class GameManager : MonoBehaviour {
         Life += m_lvlDefs[actualLvlDef].life_on_success;
 
         // Ganar puntuación
-        Score += m_lvlDefs[actualLvlDef].successScore * m_boost[actualBoost].multiplier;
+        var score = m_lvlDefs[actualLvlDef].successScore * m_boost[actualBoost].multiplier;
+        Score += System.Convert.ToInt64(score);
+        CreateFloatingScore(score.ToString());
 
         // Aciertos seguidos
         ++FollowedSuccesses;
@@ -184,5 +189,12 @@ public class GameManager : MonoBehaviour {
         ScoreManager.SCORE = Score;
 
         SceneManager.LoadScene("endgame");
+    }
+
+    void CreateFloatingScore(string text)
+    {
+        var instantiated = Instantiate<DelayedDestroy>(m_floatingScore);
+        instantiated.SetText(text.ToString());
+        instantiated.transform.SetParent(m_floatingTransformOrigin, false);
     }
 }

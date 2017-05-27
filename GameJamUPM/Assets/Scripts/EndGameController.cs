@@ -5,8 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class EndGameController : MonoBehaviour {
 
-    [SerializeField]
-    UnityEngine.UI.Text m_scoreText;
+    [SerializeField] UnityEngine.UI.Text m_scoreText;
+    [SerializeField] UnityEngine.UI.InputField m_inputField;
 
 	// Use this for initialization
 	void Start () {
@@ -15,8 +15,7 @@ public class EndGameController : MonoBehaviour {
 
     public void OnContinue_ButtonClick()
     {
-        // @TODO -> Llamada a guardar storyboard
-
+        LeaderBoardManager.saveNewScore(ScoreManager.SCORE, m_inputField.text);
         SceneManager.LoadScene("mainmenu");
     }
 }

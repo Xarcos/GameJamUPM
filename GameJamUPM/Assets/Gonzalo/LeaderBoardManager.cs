@@ -11,13 +11,12 @@ public struct score
 }
 public class LeaderBoardManager : MonoBehaviour
 {
-    public static LeaderBoardManager instance;
-    public int maxScores;
-    public string fileName = "Scores.xml";
+    public const int maxScores = 10;
+    public const string fileName = "Scores.xml";
 
     public static void saveNewScore(long score, string name)
     {
-        string fullFilePath = Path.Combine(Application.persistentDataPath, instance.fileName);
+        string fullFilePath = Path.Combine(Application.persistentDataPath, fileName);
         XmlDocument xmlDoc = new XmlDocument();
         
         if (!File.Exists(fullFilePath))
@@ -63,7 +62,7 @@ public class LeaderBoardManager : MonoBehaviour
 
     public static score[] getOrderedScores() {
         List<score> records = new List<score>();
-        string fullFilePath = Path.Combine(Application.persistentDataPath, instance.fileName);
+        string fullFilePath = Path.Combine(Application.persistentDataPath, fileName);
         XmlDocument xmlDoc = new XmlDocument();
 
         if (!File.Exists(fullFilePath))
@@ -88,11 +87,11 @@ public class LeaderBoardManager : MonoBehaviour
     }
     public static void createDefaultScores()
     {
-        string fullFilePath = Path.Combine(Application.persistentDataPath, instance.fileName);
+        string fullFilePath = Path.Combine(Application.persistentDataPath, fileName);
         XmlDocument xmlDoc = new XmlDocument();
         XmlElement root = xmlDoc.CreateElement("Scores");
 
-        for (int i = 0; i < instance.maxScores; ++i)
+        for (int i = 0; i < maxScores; ++i)
         {
             XmlNode standardUserScore = xmlDoc.CreateElement("UserScore");
 
@@ -109,18 +108,5 @@ public class LeaderBoardManager : MonoBehaviour
         xmlDoc.AppendChild(root);
         xmlDoc.Save(fullFilePath);
     }
-    void Start()
-    {
-        if (instance == null)
-        {
-            instance = this;
-        }
-        else {
-            Destroy(this);
-        }
-        score[] myscores = getOrderedScores();
-        for (int i = 0; i < myscores.Length; ++i) {
-            Debug.Log(myscores[i].name+" "+ myscores[i].points.ToString());
-        }
-    }
+    
 }
