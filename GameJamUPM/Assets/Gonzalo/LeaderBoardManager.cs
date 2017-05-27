@@ -9,9 +9,9 @@ public struct score
     public string name;
     public int points;
 }
-public class ScoreManager : MonoBehaviour
+public class LeaderBoardManager : MonoBehaviour
 {
-    public static ScoreManager instance;
+    public static LeaderBoardManager instance;
     public int maxScores;
     public string fileName = "Scores.xml";
 
