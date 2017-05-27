@@ -60,7 +60,7 @@ public class GameManager : MonoBehaviour {
         set
         {
             m_life = Mathf.Clamp(value,0,MAX_LIFE);
-            m_lifeText.text = m_life.ToString();
+            //m_lifeText.text = m_life.ToString();
 
             // @TODO cambiar las imágenes del avatar
 
@@ -96,7 +96,7 @@ public class GameManager : MonoBehaviour {
     int actualLvlDef = 0; [SerializeField] LvlDef[] m_lvlDefs;
     int actualBoost = 0; [SerializeField] boost[] m_boost;
 
-    [SerializeField] UnityEngine.UI.Text m_lifeText;
+    //[SerializeField] UnityEngine.UI.Text m_lifeText;
     [SerializeField] UnityEngine.UI.Text m_scoreText;
     [SerializeField] UnityEngine.UI.Text m_lvlText;
     [SerializeField] UnityEngine.UI.Text m_boostText;
@@ -182,7 +182,7 @@ public class GameManager : MonoBehaviour {
         MakeGesture();
     }
 
-    void EndGame()
+    public void EndGame()
     {
         // @TODO
 
