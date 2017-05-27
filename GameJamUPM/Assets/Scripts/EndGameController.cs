@@ -10,7 +10,7 @@ public class EndGameController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        m_scoreText.text = "Tu puntuación:\n" + ScoreManager.SCORE.ToString();
+        m_scoreText.text = "Tu puntuación: " + ScoreManager.SCORE.ToString();
 	}
 
     public void OnContinue_ButtonClick()
