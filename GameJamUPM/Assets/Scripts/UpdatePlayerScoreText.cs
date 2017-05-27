@@ -12,6 +12,6 @@ public class UpdatePlayerScoreText : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        playerScore.text = "Player: " + name.text + " - " + score.text;
+       
 	}
 }

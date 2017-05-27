@@ -8,10 +8,17 @@ public class EndGameController : MonoBehaviour {
     [SerializeField] UnityEngine.UI.Text m_scoreText;
     [SerializeField] UnityEngine.UI.InputField m_inputField;
 
+    string score;
+
 	// Use this for initialization
 	void Start () {
-        m_scoreText.text = "Tu puntuación: " + ScoreManager.SCORE.ToString();
+        score = ScoreManager.SCORE.ToString();
 	}
+
+    void Update()
+    {
+        m_scoreText.text = "Tu puntuación:\n" + ((m_inputField.text == "") ? "Nombre" : m_inputField.text) + " - "  + score ;
+    }
 
     public void OnContinue_ButtonClick()
     {
