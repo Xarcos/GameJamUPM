@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class DogAvatar : MonoBehaviour
 {
-
     [System.Serializable]
     public class status
     {
@@ -15,17 +14,18 @@ public class DogAvatar : MonoBehaviour
 
     public void loseHp(int loss)
     {
-        currentHP = currentHP - loss < 0 ? 0 : currentHP - loss;
+        currentHP = Mathf.Max(0, currentHP - loss);
         if (currentHP == 0)
         {
-            GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>().EndGame();
+            GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>().EndGame();
+            return;
         }
         updateStateSprite();
     }
 
     public void gainHp(int gain)
     {
-        currentHP = currentHP + gain > MAX_LIFE ? MAX_LIFE : currentHP + gain;
+        currentHP = Mathf.Min(currentHP + gain, MAX_LIFE);
         updateStateSprite();
     }
     public void setBoost(bool newBoost)
@@ -35,43 +35,40 @@ public class DogAvatar : MonoBehaviour
     }
     void updateStateSprite()
     {
-        for (int i = 0; i < dogStates.Length; ++i)
+        if (isBoosted)
         {
-            if (currentHP >= dogStates[i].minHp)
+            dogAvatar.sprite = boostAvatar;
+        }
+        else
+        {
+            for (int i = 0; i < dogStates.Length; ++i)
             {
-                state = i;
-                if (!isBoosted)
+                if (currentHP < dogStates[i].minHp)
                 {
-                    dogAvatar.sprite = dogStates[state].Avatar;
-                }
-                else
-                {
-                    dogAvatar.sprite = boostAvatar;
+                    dogAvatar.sprite = dogStates[i-1].Avatar;
+                    return;
                 }
             }
 
+            dogAvatar.sprite = dogStates[dogStates.Length - 1].Avatar;
         }
-
     }
 
-    [SerializeField]
-    status[] dogStates;
+    [SerializeField] status[] dogStates;
 
-    [SerializeField]
-    Image dogAvatar;
-    [SerializeField]
-    Sprite boostAvatar;
+    [SerializeField] Image dogAvatar;
+    [SerializeField] Sprite boostAvatar;
 
-    [SerializeField]
-    float currentHP = 100;
+    float currentHP;
 
-    public int state;
     bool isBoosted;
 
     public float MAX_LIFE;
     // Use this for initialization
     void Start()
     {
+        currentHP = MAX_LIFE;
+
         updateStateSprite();
     }
 }

@@ -12,6 +12,8 @@ public class ActionsMono : MonoBehaviour {
     void Start()
     {
         gameManager = FindObjectOfType<GameManager>();
+        gameManager.OnGestureMade += OnGestureMade;
+        gameManager.OnActionMade += OnActionMade;
     }
 
     void Update() {
@@ -24,5 +26,17 @@ public class ActionsMono : MonoBehaviour {
     {
         gameManager.MakeAction(m_ACTION);
         Debug.Log(m_ACTION.ToString());
+    }
+
+    void OnGestureMade()
+    {
+        Debug.Log("GestureMde");
+        GetComponent<UnityEngine.UI.Button>().interactable = true;
+    }
+
+    void OnActionMade()
+    {
+        Debug.Log("ActionMade");
+        GetComponent<UnityEngine.UI.Button>().interactable = false;
     }
 }

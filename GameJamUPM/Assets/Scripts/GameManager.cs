@@ -11,8 +11,8 @@ public class LvlDef
 {
     public long puntuationRequired;
     public float tempoTime;
-    public float life_on_fail;
-    public float life_on_success;
+    public int life_on_fail;
+    public int life_on_success;
     public long successScore;
 }
 
@@ -23,14 +23,13 @@ public class boost
     public float multiplier;
 }
 
+public delegate void StandardDelegate ();
+
 public class GameManager : MonoBehaviour {
 
     long m_score = 0;
-    float m_life;
     float m_temporizer = 0;
     int followedSuccesses = 0;
-
-    float m_answerTime;
 
     long Score
     {
@@ -51,24 +50,7 @@ public class GameManager : MonoBehaviour {
             }
         }
     }
-    float Life
-    {
-        get
-        {
-            return m_life;
-        }
-        set
-        {
-            m_life = Mathf.Clamp(value,0,MAX_LIFE);
-            //m_lifeText.text = m_life.ToString();
 
-            // @TODO cambiar las imágenes del avatar
-
-            // Comprobar muerte
-            if (m_life == 0)
-                EndGame();
-        }
-    }
     int FollowedSuccesses
     {
         get
@@ -105,14 +87,15 @@ public class GameManager : MonoBehaviour {
     [SerializeField] DelayedDestroy m_floatingScore;
 
     Owner m_owner;
+    DogAvatar m_avatar;
 
-    public float MAX_LIFE;
+    public event StandardDelegate OnGestureMade;
+    public event StandardDelegate OnActionMade;
 
 	// Use this for initialization
 	void Start () {
-        m_life = MAX_LIFE;
-
         m_owner = GameObject.FindGameObjectWithTag("Owner").GetComponent<Owner>();
+        m_avatar = GameObject.FindGameObjectWithTag("Avatar").GetComponent<DogAvatar>();
 
         MakeGesture();
 	}
@@ -135,12 +118,20 @@ public class GameManager : MonoBehaviour {
         // Hacer el gesto
         m_owner.MakeGesture(m_actualGesture);
 
-        // @TODO Iniciar temporizador
+        // Iniciar temporizador
         m_temporizer = m_lvlDefs[actualLvlDef].tempoTime;
+
+        // Avisar a los demas
+        if (OnGestureMade != null)
+            OnGestureMade();
     }
 
     public void MakeAction(Actions action)
     {
+        // Avisar a los demas
+        if (OnActionMade != null)
+            OnActionMade();
+
         if (m_actualGesture == action)
             OnCorrectAction();
         else
@@ -156,10 +147,16 @@ public class GameManager : MonoBehaviour {
         FollowedSuccesses = 0;
 
         // Perder vida
-        Life -= m_lvlDefs[actualLvlDef].life_on_fail;
+        m_avatar.loseHp(m_lvlDefs[actualLvlDef].life_on_fail);
 
         // Hacer el nuevo gesto
-        MakeGesture();
+        if (actualLvlDef != 0)
+            MakeGesture();
+        else
+        {
+            if (OnGestureMade != null)
+                OnGestureMade();
+        }
     }
 
     public void OnCorrectAction()
@@ -168,7 +165,7 @@ public class GameManager : MonoBehaviour {
         // Reacción del dueño
 
         // Ganar vida
-        Life += m_lvlDefs[actualLvlDef].life_on_success;
+        m_avatar.gainHp(m_lvlDefs[actualLvlDef].life_on_success);
 
         // Ganar puntuación
         var score = m_lvlDefs[actualLvlDef].successScore * m_boost[actualBoost].multiplier;
