@@ -17,20 +17,21 @@ public class Owner : MonoBehaviour {
     [SerializeField] OwnerGestures _PawGestures;
     [SerializeField] OwnerGestures _SitGestures;
 
+    [SerializeField] OwnerGestures _SadReaction;
+    [SerializeField] OwnerGestures _HappyReaction;
+
+
     [SerializeField] bool RandomGestures;
 
 	[SerializeField] UnityEngine.UI.Image m_faceGesture;
     [SerializeField] UnityEngine.UI.Image m_handsGesture;
 
-    public void MakeGesture(Actions action)
-    {
-        var gestureSprites = getGesture(action);
-        m_handsGesture.sprite = gestureSprites.hands;
-        m_faceGesture.sprite = gestureSprites.face;
-    }
+    AudioSource _audio;
 
     void Awake()
     {
+        _audio = GetComponent<AudioSource>();
+
         if (RandomGestures)
         {
             var choosenGesturesInt = GenerateRandom(4, 0, MgrOwnerGestures.facesCount());
@@ -46,6 +47,31 @@ public class Owner : MonoBehaviour {
         owg.face = MgrOwnerGestures.getFaceGesture(i);
         owg.hands = MgrOwnerGestures.getHandGesture(i);
         owg.voice = MgrOwnerGestures.getVoiceGesture(i);
+    }
+
+    public void MakeGesture(Actions action)
+    {
+        var gestureSprites = getGesture(action);
+        m_handsGesture.sprite = gestureSprites.hands;
+        m_faceGesture.sprite = gestureSprites.face;
+        _audio.clip = gestureSprites.voice;
+        _audio.Play();
+    }
+
+    public void HappyReaction()
+    {
+        m_handsGesture.sprite = _HappyReaction.hands;
+        m_faceGesture.sprite = _HappyReaction.face;
+        _audio.clip = _HappyReaction.voice;
+        _audio.Play();
+    }
+
+    public void AngryReaction()
+    {
+        m_handsGesture.sprite = _SadReaction.hands;
+        m_faceGesture.sprite = _SadReaction.face;
+        _audio.clip = _SadReaction.voice;
+        _audio.Play();
     }
 
     static int[] GenerateRandom(int count, int min, int max)

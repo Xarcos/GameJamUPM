@@ -46,7 +46,6 @@ public class GameManager : MonoBehaviour {
             if ((actualLvlDef < (m_lvlDefs.Length - 1)) && (m_lvlDefs[actualLvlDef + 1].puntuationRequired <= m_score))
             {
                 ++actualLvlDef;
-                m_lvlText.text = "Level: " + actualLvlDef.ToString();
             }
         }
     }
@@ -80,14 +79,20 @@ public class GameManager : MonoBehaviour {
 
     //[SerializeField] UnityEngine.UI.Text m_lifeText;
     [SerializeField] UnityEngine.UI.Text m_scoreText;
-    [SerializeField] UnityEngine.UI.Text m_lvlText;
     [SerializeField] UnityEngine.UI.Text m_boostText;
     
     [SerializeField] RectTransform m_floatingTransformOrigin;
     [SerializeField] DelayedDestroy m_floatingScore;
 
+    [SerializeField] float OWNER_REACTION_TIME;
+
+    [SerializeField] Animator redFeedback;
+
+    bool tempoOn;
+
     Owner m_owner;
     DogAvatar m_avatar;
+    Animator player;
 
     public event StandardDelegate OnGestureMade;
     public event StandardDelegate OnActionMade;
@@ -96,6 +101,7 @@ public class GameManager : MonoBehaviour {
 	void Start () {
         m_owner = GameObject.FindGameObjectWithTag("Owner").GetComponent<Owner>();
         m_avatar = GameObject.FindGameObjectWithTag("Avatar").GetComponent<DogAvatar>();
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Animator>();
 
         MakeGesture();
 	}
@@ -103,11 +109,20 @@ public class GameManager : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         // Temporizador
-        if ((m_temporizer -= Time.deltaTime) < 0)
+        if (tempoOn && (m_temporizer -= Time.deltaTime) < 0)
         {
             OnWrongAction();
         }
 	}
+
+    public void StopTemporizer()
+    {
+        tempoOn = false;
+
+        // Avisar a los demas
+        if (OnActionMade != null)
+            OnActionMade();
+    }
 
     public void MakeGesture()
     {
@@ -120,6 +135,7 @@ public class GameManager : MonoBehaviour {
 
         // Iniciar temporizador
         m_temporizer = m_lvlDefs[actualLvlDef].tempoTime;
+        tempoOn = true;
 
         // Avisar a los demas
         if (OnGestureMade != null)
@@ -128,20 +144,19 @@ public class GameManager : MonoBehaviour {
 
     public void MakeAction(Actions action)
     {
-        // Avisar a los demas
-        if (OnActionMade != null)
-            OnActionMade();
-
         if (m_actualGesture == action)
-            OnCorrectAction();
+            StartCoroutine(OnCorrectAction());
         else
-            OnWrongAction();
+            StartCoroutine(OnWrongAction());
     }
 
-    public void OnWrongAction()
+    public IEnumerator OnWrongAction()
     {
-        // @TODO
         // Reacción del dueño
+        m_owner.AngryReaction();
+        redFeedback.SetTrigger("error");
+        player.SetTrigger("sit");
+        yield return new WaitForSeconds(OWNER_REACTION_TIME);
 
         // Resetear el número de aciertos seguidos
         FollowedSuccesses = 0;
@@ -159,10 +174,11 @@ public class GameManager : MonoBehaviour {
         }
     }
 
-    public void OnCorrectAction()
+    public IEnumerator OnCorrectAction()
     { 
-        // @TODO
         // Reacción del dueño
+        m_owner.HappyReaction();
+        yield return new WaitForSeconds(OWNER_REACTION_TIME);
 
         // Ganar vida
         m_avatar.gainHp(m_lvlDefs[actualLvlDef].life_on_success);
