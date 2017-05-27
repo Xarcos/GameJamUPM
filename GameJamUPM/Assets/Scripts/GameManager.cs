@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+[System.Serializable]
 public enum Actions {Bark, MakeDeath, Paw, Sit }
 
 [System.Serializable]
@@ -46,7 +47,7 @@ public class GameManager : MonoBehaviour {
             if ((actualLvlDef < (m_lvlDefs.Length - 1)) && (m_lvlDefs[actualLvlDef + 1].puntuationRequired <= m_score))
             {
                 ++actualLvlDef;
-                m_lvlText.text = actualLvlDef==0? "" : "Level: " + actualLvlDef.ToString();
+                m_lvlText.text = "Level: " + actualLvlDef.ToString();
             }
         }
     }
@@ -80,12 +81,12 @@ public class GameManager : MonoBehaviour {
             if (followedSuccesses == 0)
             {
                 actualBoost = 0;
-                m_boostText.text = "x" + actualBoost.ToString();
+                m_boostText.text = "";
             }
             else if ((actualLvlDef == m_lvlDefs.Length -1) && (actualBoost < (m_boost.Length - 1)) && (m_boost[actualBoost + 1].followedSuccesses <= followedSuccesses))
             {
                 ++actualBoost;
-                m_boostText.text = "x" + actualBoost.ToString();
+                m_boostText.text = "x" + m_boost[actualBoost].multiplier.ToString();
             }
         }
     }
@@ -133,14 +134,6 @@ public class GameManager : MonoBehaviour {
 
         // @TODO Iniciar temporizador
         m_temporizer = m_lvlDefs[actualLvlDef].tempoTime;
-    }
-
-    public void MakeAction(string action)
-    {
-        if (m_actualGesture.ToString() == action)
-            OnCorrectAction();
-        else
-            OnWrongAction();
     }
 
     public void MakeAction(Actions action)

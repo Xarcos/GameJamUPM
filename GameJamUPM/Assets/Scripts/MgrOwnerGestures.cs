@@ -2,21 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[System.Serializable]
-public class OwnerGestures
-{
-    public Sprite hands;
-    public Sprite face;
-    public AudioClip voice;
-}
+
 
 [CreateAssetMenu]
-public class MgrOwnerGestures : ScriptableObject { 
+public class MgrOwnerGestures : ScriptableObject {
 
-	public OwnerGestures _BarkGestures;
-	public OwnerGestures _MakeDeathGestures;
-	public OwnerGestures _PawGestures;
-	public OwnerGestures _SitGestures;
+    public Sprite[] _handGestures;
+    public Sprite[] _faceGestures;
+    public AudioClip[] _voiceGestures;
 
     static MgrOwnerGestures instance;
 
@@ -30,20 +23,28 @@ public class MgrOwnerGestures : ScriptableObject {
         }
     }
 
-    public static OwnerGestures getGesture (Actions action)
+    public static int voicesCount()
     {
-        switch (action)
-        {
-            case Actions.Bark:
-                return Instance._BarkGestures;
-            case Actions.MakeDeath:
-                return Instance._MakeDeathGestures;
-            case Actions.Paw:
-                return Instance._PawGestures;
-            case Actions.Sit:
-                return Instance._SitGestures;
-            default:
-                throw new System.Exception(action.ToString() + " do not exist");
-        }
+        return Instance._voiceGestures.Length;
+    }
+    public static int handsCount()
+    {
+        return Instance._handGestures.Length;
+    }
+    public static int facesCount()
+    {
+        return Instance._faceGestures.Length;
+    }
+    public static Sprite getHandGesture(int i)
+    {
+        return Instance._handGestures[i];
+    }
+    public static Sprite getFaceGesture(int i)
+    {
+        return Instance._faceGestures[i];
+    }
+    public static AudioClip getVoiceGesture(int i)
+    {
+        return Instance._voiceGestures[i];
     }
 }

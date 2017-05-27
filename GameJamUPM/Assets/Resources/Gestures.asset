@@ -11,19 +11,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19235b599e0134c4c8c06ac58b64ba12, type: 3}
   m_Name: gestures
   m_EditorClassIdentifier: 
-  _BarkGestures:
-    hands: {fileID: 21300000, guid: 68e20a1e76a240846bccb8f3c9a5d036, type: 3}
-    face: {fileID: 0}
-    voice: {fileID: 0}
-  _MakeDeathGestures:
-    hands: {fileID: 21300000, guid: 9be41cf32e0fe9b4ca58e5e787c1e7a2, type: 3}
-    face: {fileID: 0}
-    voice: {fileID: 0}
-  _PawGestures:
-    hands: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
-    face: {fileID: 0}
-    voice: {fileID: 0}
-  _SitGestures:
-    hands: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
-    face: {fileID: 0}
-    voice: {fileID: 0}
+  _handGestures:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  _faceGestures:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  _voiceGestures:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
